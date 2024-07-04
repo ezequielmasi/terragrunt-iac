@@ -7,6 +7,7 @@ terraform {
 }
 
 inputs = {
+  
   name = "nimbus"
   cidr = "172.20.0.0/16"
   azs  = ["us-east-1b", "us-east-1c"]
