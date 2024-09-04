@@ -18,6 +18,9 @@ locals {
   aws_region   = local.region_vars.locals.aws_region  
   account_name = local.account_vars.locals.account_name
   account_id   = local.account_vars.locals.account_id
+
+  # Definir los tags por defecto usando variables del archivo env.hcl
+  default_tags = local.environment_vars.locals
 }
 
 remote_state {
@@ -43,7 +46,7 @@ generate "provider" {
     provider "aws" {
       region  = "${local.aws_region}"
       default_tags {
-        tags = {}
+        tags = ${jsonencode(local.default_tags)}
       }
     }
     EOF
