@@ -1,3 +1,11 @@
+locals {
+  account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+  region_vars      = read_terragrunt_config(find_in_parent_folders("region.hcl"))
+  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+
+  prefix = "${local.environment_vars.locals.environment}-${basename(get_terragrunt_dir())}"
+}
+
 include "root" {
   path = find_in_parent_folders()
 }
@@ -8,28 +16,26 @@ terraform {
 
 inputs = {
   
-  name = "nimbus"
-  cidr = "172.20.0.0/16"
+  name = "${local.prefix}"
+  cidr = "10.88.0.0/16"
   azs  = ["us-east-1b", "us-east-1c"]
 
-  public_subnets               = ["172.20.196.0/25", "172.20.196.128/25"]
-  public_subnet_names          = ["nimbus-public-196-1b", "nimbus-public-196-1c"]
+  public_subnets               = ["10.88.0.0/24", "10.88.1.0/24"]
   public_subnet_tags           = { "Type" = "public" }
   
-  private_subnets              = ["172.20.197.0/25", "172.20.197.128/25", "172.20.199.0/25", "172.20.199.128/25", "172.20.195.0/25", "172.20.195.128/25"]
-  private_subnet_names         = ["nimbus-services-197-1b", "nimbus-services-197-1c", "nimbus-others-199-1b", "nimbus-others-199-1c", "nimbus-monitoring-195-1b", "nimbus-monitoring-195-1c"]
+  private_subnets              = ["10.88.10.0/24", "10.88.11.0/24"]
   private_subnet_tags          = { "Type" = "private" }
 
-  database_subnets             = ["172.20.200.0/25", "172.20.200.128/25"]
-  database_subnet_names        = ["nimbus-db-200-1b", "nimbus-db-200-1c"]
+  database_subnets             = ["10.88.20.0/24", "10.88.21.0/24"]
   database_subnet_tags         = { "Type" = "database" }
-  create_database_subnet_group = false
+  create_database_subnet_group = true
 
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   enable_nat_gateway     = true
-  one_nat_gateway_per_az = true
+  single_nat_gateway     = true
+  one_nat_gateway_per_az = false
 
   enable_dhcp_options      = true
   dhcp_options_domain_name = "ec2.internal"

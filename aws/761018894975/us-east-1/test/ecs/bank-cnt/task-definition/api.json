@@ -1,0 +1,19 @@
+{
+  "api": {
+    "essential": true,
+    "image": "nginx:latest",
+    "readonly_root_filesystem": false,
+    "cloudwatch_log_group_name": "/aws/ecs/${cluster_name}/api",
+    "port_mappings": [
+      {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "appProtocol": "http"
+      }
+    ],
+    "runtime_platform": {
+      "cpu_architecture": "Linux/X86_64"
+    }
+  }
+}
