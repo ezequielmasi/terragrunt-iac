@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Local .terraform directories
 **/.terraform/*
 
@@ -35,3 +36,27 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+=======
+# Terraform
+.terraform
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Terragrunt
+.terragrunt-cache
+
+# OS X
+.history
+.DS_Store
+
+# IntelliJ
+.idea_modules
+*.iml
+*.iws
+*.ipr
+.idea/
+build/
+*/build/
+out/
+>>>>>>> master
